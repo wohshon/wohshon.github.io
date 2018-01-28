@@ -1,8 +1,6 @@
 ---
 #layout: post
 title: 'Testing'
-date: '2018-01-28 11:35:00 +08400'
-categories: test
 ---
 
 Hello this is a test
