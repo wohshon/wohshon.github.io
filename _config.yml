@@ -57,9 +57,9 @@ social:
     share_title:
     share_link:
 
-#  - icon:	google-plus
-#    url:	https://google.com/???
-#    desc:	Add me on google+
-#    share_url:
-#    share_title:
-#    share_link:
+  - icon:	linkedin
+    url:	https://www.linkedin.com/in/wophoon
+    desc:	Connect with me
+    share_url:
+    share_title:
+    share_link:
