@@ -12,7 +12,7 @@ I want to talk a bit on the Hot Rod springboot client I wrote to test the setup.
 
 Back to today's topic, the little utility springboot program basically uses [Hot Rod](https://infinispan.org/docs/dev/titles/hotrod_java/hotrod_java.html) to communicate with a infinispan cluster; and it exposes a suite of REST based API for end users to invoke the CRUD operations. Hot Rod is a binary based TCP protocol, that promised better performance and provides client side functionalities like loadbalancing and failover etc. 
 
-We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity.
+We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity. I will also share some of the changes required for internal clients, if we were to deploy the springboot app on OCP, calling the cluster via service endpoint
 
 The repo of the client is [here](https://github.com/wohshon/application-clients/tree/master/rhdg-springboot). The README file should be able to get you going.
 
