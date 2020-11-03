@@ -40,20 +40,23 @@ c2 : cluster2
 
 ### Environment setup
 
+You will need a minimal of 2 RWO Persistent Volume per clusters, 1Gi, 1 per Infinispan node. 
+
 #### - On Public Cloud
 
 I have access to 2 running OCP clusters in AWS, all in ap-southeast region. For this demo, having the clusters deployed in a public cloud is **crucial** as I will be using the `LoadBalancer` ingress to connect the 2 RHDG clusters. For on premise setup, the other option is to use a `NodePort`, I have yet to try it (updated in the next section). 
-For the LoadBalancer ingress, the Infinispan Operator [checks](https://github.com/infinispan/infinispan-operator/blob/af542c4e456b42a962b1a07fe62f8559c23ec784/pkg/controller/infinispan/xsite.go#L206) for the `Service`'s object `LoadBalancer: ingress` value, so your cloud provider needs to implement it correctly,  hacking it with the `ExternalIPs` of your own load balancer, will not work.
 
 
 #### - On Premise
 
 This was tested using 2 OCP clusters that are installed on premise. After the initial test which failed (Got a `Generic error in managing x-site coordinators` error message). I tore down everything and setup from scratch. This time round, I let the clusters negotiate the x-site handshakes a little longer and I found that the clusters did connect to each other.
 
+
     $ oc logs -f example-infinispan-0 | grep x-site
     15:36:50,046 INFO  (jgroups-5,example-infinispan-0-11602) [org.infinispan.XSITE] ISPN000439: Received new x-site view: [c1]
     15:37:01,112 INFO  (jgroups-5,example-infinispan-0-11602) [org.infinispan.XSITE] ISPN000439: Received new x-site view: [c1, c2]
 
+Side note: I wasn't successful in the inital attempts, so I tried hacking a using a LoadBalancer ingress using External IPs, it won't work. The Infinispan Operator [checks](https://github.com/infinispan/infinispan-operator/blob/af542c4e456b42a962b1a07fe62f8559c23ec784/pkg/controller/infinispan/xsite.go#L206) for the `Service`'s object `LoadBalancer: ingress` value.
 
 
 #### Setting up the base environment
