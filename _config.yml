@@ -4,7 +4,7 @@ gems:
   - jekyll-paginate
 
 # Site settings
-title: "wohshon's journal"
+title: "journal"
 description: > # this means to ignore newlines until "email:"
    lest i forget ...
 
