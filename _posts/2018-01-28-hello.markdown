@@ -1,7 +1,0 @@
----
-#layout: post
-title: 'Testing'
----
-
-Hello this is a test
-
