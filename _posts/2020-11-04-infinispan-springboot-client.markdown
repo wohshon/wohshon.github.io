@@ -8,7 +8,7 @@ tags: infinispan openshift datagrid springboot
 
 This is a extended post from the previous [article](https://wohshon.github.io/tech/2020/11/03/cross-site-infinispan.html) on deploying a cross site infinispan cluster on OpenShift Container Platform. 
 
-I want to talk a bit on the hotrod springboot client I wrote to test the setup. I like to keep some scripts and utility programs handy as my job requires me to work on test or demo the solutions I work with. In fact, quite a number of them (like AMQ, AMQ Streams, DataGrid) actually needs some form of clients to be interacting with them. That was my motivation for developing some commonly used [application clients](https://github.com/wohshon/application-clients) in various runtimes. I am still in the midst of building that up after AMQ and Datagrid, probably AMQ Streams (kafka) is next.  
+I want to talk a bit on the Hot Rod springboot client I wrote to test the setup. I like to keep some scripts and utility programs handy as my job requires me to work test or demo the solutions I work with. In fact, quite a number of them (like AMQ, AMQ Streams, DataGrid) actually needs some form of clients to be interacting with them. That was my motivation for developing some commonly used [application clients](https://github.com/wohshon/application-clients) in various runtimes. I am still in the midst of building that up after AMQ and Datagrid, probably AMQ Streams (kafka) is next.  
 
 Back to today's topic, the little utility springboot program basically uses [Hot Rod](https://infinispan.org/docs/dev/titles/hotrod_java/hotrod_java.html) to communicate with a infinispan cluster; and it exposes a suite of REST based API for end users to invoke the CRUD operations. Hot Rod is a binary based TCP protocol, that promised better performance and provides client side functionalities like loadbalancing and failover etc.
 
@@ -23,7 +23,7 @@ In this case, a `PersonEntity` is used as the domain object (name, email, age) ,
 
 #### Connectivity
 
-- Most of the hotrod connectivity details are configured in `hotrod-client-ocp-route.properties` and `hotrod-client.properties` and as the names implied, one is more for OpenShift Container Platform (OCP) route based usecases.
+- Most of the Hot Rod connectivity details are configured in `hotrod-client-ocp-route.properties` and `hotrod-client.properties` and as the names implied, one is more for OpenShift Container Platform (OCP) route based usecases.
 
 The key configs you will need to be aware are
 
@@ -38,15 +38,18 @@ The key configs you will need to be aware are
 
 You will also need to specify the hostname of the route via `infinispan.client.hotrod.sni_host_name`
 
+For more details, the apidocs are [here](https://docs.jboss.org/infinispan/10.1/apidocs/org/infinispan/client/hotrod/configuration/package-summary.html)
+
+
 #### Running the app
 
 Some things to take note:
 
-1. You have a cluster running, a cache is setup.
-2. Ensure your hotrod client properties are configured with the correct seetings according to your environment. Refer to the previous section.
+1. You have access to a cluster.
+2. Ensure your Hot Rod client properties are configured with the correct settings according to your environment. Refer to the previous section.
 3. Update the `application.properties` file with
    -  `app.cacheName`, the name of the cache
-   - `hotrod.properties`, the hotrod client properties file you are using
+   - `hotrod.properties`, the Hot Rod client properties file you are using
 
 Running the app is straightforward, like any springboot app.
 
