@@ -12,7 +12,7 @@ I want to talk a bit on the Hot Rod springboot client I wrote to test the setup.
 
 Back to today's topic, the little utility springboot program basically uses [Hot Rod](https://infinispan.org/docs/dev/titles/hotrod_java/hotrod_java.html) to communicate with a infinispan cluster; and it exposes a suite of REST based API for end users to invoke the CRUD operations. Hot Rod is a binary based TCP protocol, that promised better performance and provides client side functionalities like loadbalancing and failover etc. 
 
-We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity. I will also share some of the changes required for internal clients, if we were to deploy the springboot app on OCP, calling the cluster via service endpoint
+We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity. I will also share some of the changes required for **internal** clients, if we were to deploy the springboot app on OCP, calling the cluster via service endpoint
 
 The repo of the client is [here](https://github.com/wohshon/application-clients/tree/master/rhdg-springboot). The README file should be able to get you going.
 
@@ -168,6 +168,26 @@ In summary:
 - try using the route
 
 $ curl -X GET -H 'Content-type: application/json'  http://client-apps.apps.ocpcluster2.domain.com/api/get/001
+
+#### Client Intelligence with internal clients
+
+Just an observation, I swtiched over to `TOPOLOGY_AWARE` mode, and can see the topology info sent back to clients successfully.
+
+Went a step further to increase the cluster size to 3, and can see the info coming back.
+
+
+
+```
+2020-11-04 05:49:37.730  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004006: Server sent new topology view (id=10, age=0) containing 2 addresses: [172.22.1.77:11222, 172.22.0.78:11222]
+2020-11-04 05:49:37.730  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004014: New server added(172.22.1.77:11222), adding to the pool.
+2020-11-04 05:49:37.740  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004014: New server added(172.22.0.78:11222), adding to the pool.
+2020-11-04 05:49:37.749  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004016: Server not in cluster anymore(example-infinispan.rhdg-cluster.svc.cluster.local:11222), removing from the pool.
+2020-11-04 05:49:54.439  INFO 1 --- [nio-8080-exec-3] c.r.a.client.rhdgspringboot.Controller   : Get : 003
+2020-11-04 05:50:03.117  INFO 1 --- [nio-8080-exec-5] c.r.a.client.rhdgspringboot.Controller   : Get : 001
+2020-11-04 05:52:51.466  INFO 1 --- [nio-8080-exec-7] c.r.a.client.rhdgspringboot.Controller   : Get : 001
+2020-11-04 05:52:51.491  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004006: Server sent new topology view (id=14, age=0) containing 3 addresses: [172.22.1.77:11222, 172.22.2.65:11222, 172.22.0.78:11222]
+2020-11-04 05:52:51.491  INFO 1 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004014: New server added(172.22.2.65:11222), adding to the pool.
+```
 
 Thats all for now!
 
