@@ -118,5 +118,56 @@ $ curl -X GET -H 'Content-type: application/json'  localhost:8080/api/get/001
 {"id":"001","name":"ws","email":"a@b.com"}
 ```
 
+#### Testing as internal clients, running springboot on OCP
+
+For details check out the `internal-client` branch. 
+
+In summary:
+
+- change the server list in hot rod connection properties file to point to service endpot, 
+
+        infinispan.client.hotrod.server_list = example-infinispan.rhdg-cluster.svc.cluster.local:11222
+
+- create a secret of the cert, the cluster still listens on tls , so hotrod needs this to be mounted into the Pod running springboot
+
+        $ oc create secret generic dg-crt --from-file=/tmp/tls-2.crt
+
+- deploy the app, dirty hack to generate the `deployment` object 
+
+        $ oc new-app openjdk-11-rhel8:1.0~https://github.com/wohshon/application-clients#internal-client --context-dir=rhdg-springboot --name=client
+        $ oc expose svc client
+
+- patch the `deployment` object to include the secret in the pod as a volumemount.
+
+```
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/apps/<truncated>
+        imagePullPolicy: IfNotPresent
+        name: client
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        - containerPort: 8778
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp/crt
+          name: mydir
+      volumes:
+      - name: mydir
+        secret:
+          defaultMode: 420
+          secretName: dg-crt
+```
+
+- try using the route
+
+$ curl -X GET -H 'Content-type: application/json'  http://client-apps.apps.ocpcluster2.domain.com/api/get/001
+
 Thats all for now!
 
