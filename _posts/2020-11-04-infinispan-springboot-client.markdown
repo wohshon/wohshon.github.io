@@ -31,13 +31,13 @@ The key configs you will need to be aware are
 
 - `infinispan.client.hotrod.server_list`, the endpoint of your cluster, it accepts a semi-colon separated list for multiple instances to handle failover*
 
-*This is another area I need to explore, traditionally, for non OCP deployments, a list refers to the different nodes in a cluster, with a route based endpoint, it already 'is' the entire cluster. My take is it does not makes sense to have multiple routes as endpoints here. So there needs to be some external help needed to automatically fail over to a different cluster, which I believe applies to the non OCP case as well.
+*This is another area I need to explore, traditionally, for non OCP deployments, a list refers to the different nodes in a cluster, with a route based endpoint, it already 'is' the entire cluster. My take is it does not makes sense to have multiple routes as endpoints here (it won't work). Like the non OCP deployment,  there needs to be some external help (like LB) needed to automatically fail over to a different cluster.
 
 
 - `infinispan.client.hotrod.client_intelligence`, BASIC (no cluster aware), TOPOLOGY_AWARE (clients received updated topology), DISTRIBUTION_AWARE (Topology aware and stores consistent hash for keys).*
 
 I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. 
-How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster. We have to accept this as a limitation for external clients and leverage on hot rod's superior perforamnce than text-based protocols. 
+How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster. We have to accept this as a limitation for external clients and leverage on hot rod's superior perforamnce vs text-based protocols. 
 
 The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware as well. 
 
