@@ -292,7 +292,11 @@ There are a few ways to create the cache,
 
 - using the Operator, which exposes a Infinispan Cache api for you to do that.
 - `oc rsh` into the pod and use the cli tool to create the caches.
-- I went the easy way , doing it via the web console.
+- Doing it via the web console.
+
+#### Creating the caches via Web Console
+
+Probably the easiest way.
 
 The web / admin console of the RHDG cluster can be access via the exposed route. i.e. `oc get route` to see it.
 
@@ -314,7 +318,7 @@ Using the web console, `Data Container / Create Cache`
 ![create cache](/assets/article_images/2020-11-03-cross-site-infinispan/dg-4.png "Create Cache")
 
 
-- Paste this following xml config to create a cache in cluster 1
+- Paste this following xml config to create a cache in cluster 1, note that each cache has a different SYNC and ASYNC strategy, this is delibrately done to show they can be different.
 
 ```
     <infinispan>
@@ -346,6 +350,80 @@ Using the web console, `Data Container / Create Cache`
       </cache-container>
     </infinispan>
 ```
+
+#### Creating the caches via Operator
+
+More steps for this
+
+- Create a basic-auth secret username / password credentials, using the developer creds from the `example-infinispan-generated-secret` secret you extracted earlier
+
+
+    apiVersion: v1
+    stringData:
+      username: developer
+      password: <your own value>
+    kind: Secret
+    metadata:
+      name: basic-auth
+    type: Opaque
+
+- Next, use the Operator's Create Cache api, or `oc create -f` with the following contents: 
+
+For cluster 1:
+
+    apiVersion: infinispan.org/v2alpha1
+    kind: Cache
+    metadata:
+      name: example-cache 
+    spec:
+      adminAuth: 
+        secretName: basic-auth
+      clusterName: example-infinispan 
+      name: cache1 
+      template: <infinispan><cache-container><distributed-cache name="cache1"><encoding media-type="application/x-protostream"/><backups><backup site="c2" strategy="SYNC"><take-offline min-wait="120000"/></backup></backups></distributed-cache></cache-container></infinispan>
+
+
+For cluster 2:
+
+    apiVersion: infinispan.org/v2alpha1
+    kind: Cache
+    metadata:
+      name: example-cache 
+    spec:
+      adminAuth: 
+        secretName: basic-auth
+      clusterName: example-infinispan 
+      name: cache1 
+      template: <infinispan><cache-container><distributed-cache name="cache1"><encoding media-type="application/x-protostream"/><backups><backup site="c1" strategy="SYNC"><take-offline min-wait="120000"/></backup></backups></distributed-cache></cache-container></infinispan>
+
+
+this will create the Cache object.
+
+
+#### Accessing the Datagrid cluster
+
+If you need to use the cli to manage the cluster, here is how you can access the dg cluster:
+
+    $ oc rsh example-infinispan-0
+
+Run this command to connect via cli, Enter the `operator` credentials, and you can access cluster :
+
+    $ bin/cli.sh -c https://$EXAMPLE_INFINISPAN_PORT_11222_TCP_ADDR:$EXAMPLE_INFINISPAN_SERVICE_PORT --trustall
+    Username: operator
+    Password: 
+
+    [example-infinispan-1-53156@infinispan//containers/default]> ls
+    caches
+    counters
+    configurations
+    schemas
+    tasks
+    [example-infinispan-1-53156@infinispan//containers/default]> cd caches
+    [example-infinispan-1-53156@infinispan//containers/default/caches]> ls
+    ___script_cache
+    ___protobuf_metadata
+    cache1
+
 
 #### Test Drive
 
