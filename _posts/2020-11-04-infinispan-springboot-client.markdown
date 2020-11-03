@@ -47,7 +47,7 @@ The `DISTRIBUTION_AWARE` will not work for external clients as well as it is top
 ```
 2020-11-04 10:25:37.112  INFO 25381 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004014: New server added(172.22.0.70:11222), adding to the pool.
 2020-11-04 10:25:37.118  INFO 25381 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004014: New server added(172.22.1.77:11222), adding to the pool.
-2020-11-04 10:25:37.123  INFO 25381 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004016: Server not in cluster anymore(example-infinispan-external-rhdg-cluster.apps.ocpcluster2.gemsdemolab.com:443), removing from the pool.
+2020-11-04 10:25:37.123  INFO 25381 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004016: Server not in cluster anymore(example-infinispan-external-rhdg-cluster.apps.ocpcluster2.domain.com:443), removing from the pool.
 2020-11-04 10:25:45.984  INFO 25381 --- [nio-8080-exec-2] c.r.a.client.rhdgspringboot.Controller   : Get : 001
 2020-11-04 10:26:37.131  WARN 25381 --- [-async-pool-1-1] org.infinispan.HOTROD                    : ISPN004015: Failed adding new server 172.22.0.70:11222
 
@@ -91,7 +91,7 @@ Running the app is straightforward, like any springboot app.
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.3.3.RELEASE)
 
-2020-11-04 09:31:13.094  INFO 24396 --- [           main] c.r.a.c.r.RhdgSpringbootApplication      : Starting RhdgSpringbootApplication on ocpclient1.gemsdemolab.com with PID 24396 (/home/wohshon/workspace/application-clients/rhdg-springboot/target/classes started by wohshon in /home/wohshon/workspace/application-clients/rhdg-springboot)
+2020-11-04 09:31:13.094  INFO 24396 --- [           main] c.r.a.c.r.RhdgSpringbootApplication      : Starting RhdgSpringbootApplication on ocpclient1.domain.com with PID 24396 (/home/wohshon/workspace/application-clients/rhdg-springboot/target/classes started by wohshon in /home/wohshon/workspace/application-clients/rhdg-springboot)
 2020-11-04 09:31:13.096  INFO 24396 --- [           main] c.r.a.c.r.RhdgSpringbootApplication      : No active profile set, falling back to default profiles: default
 2020-11-04 09:31:13.692  INFO 24396 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
 2020-11-04 09:31:13.699  INFO 24396 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
