@@ -6,7 +6,7 @@ gems:
 # Site settings
 title: "wohshon's journal"
 description: > # this means to ignore newlines until "email:"
-   lest we forget ...
+   lest i forget ...
 
 # email: a-mail@mail.mail
 email: https://github.com/wohshon
