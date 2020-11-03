@@ -360,7 +360,7 @@ More steps for this
 
 - Create a basic-auth secret username / password credentials, using the developer creds from the `example-infinispan-generated-secret` secret you extracted earlier
 
-
+```
     apiVersion: v1
     stringData:
       username: developer
@@ -369,7 +369,7 @@ More steps for this
     metadata:
       name: basic-auth
     type: Opaque
-
+```
 - Next, use the Operator's Create Cache api, or `oc create -f` with the following contents: 
 
 For cluster 1:
