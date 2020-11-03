@@ -37,7 +37,7 @@ The key configs you will need to be aware are
 - `infinispan.client.hotrod.client_intelligence`, BASIC (no cluster aware), TOPOLOGY_AWARE (clients received updated topology), DISTRIBUTION_AWARE (Topology aware and stores consistent hash for keys).*
 
 I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. 
-How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster. We have to accept this as a limitation for external clients and leverage on hot rod's superior perforamnce vs text-based protocols. 
+How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster (same goes for internal clients, which is not wise to use a POD IP as a endpoint). Seems like client side topology awareness and failover is no longer relevant here. So looks like is about leveraging hot rod's superior perforamnce vs text-based protocols. 
 
 The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware. 
 
