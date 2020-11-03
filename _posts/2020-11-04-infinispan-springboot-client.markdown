@@ -36,11 +36,12 @@ The key configs you will need to be aware are
 
 - `infinispan.client.hotrod.client_intelligence`, BASIC (no cluster aware), TOPOLOGY_AWARE (clients received updated topology), DISTRIBUTION_AWARE (Topology aware and stores consistent hash for keys).*
 
-I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. How big will this be an impact? if a pod always gets spin up (ideally) after it crashes, for most 'general' usecases, I would like to think that the service will still distribute the load according to number of nodes in the cluster so this is probably still ok. 
+I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. 
+How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster. We have to accept this as a limitation for external clients and leverage on hot rod's superior perforamnce than text-based protocols. 
 
 The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware as well. 
 
-(I got another error in this mode :`Unable to convert property [%s] to an enum! `, will need to investigate this ) 
+(I got another error in this mode :`Unable to convert property [%s] to an enum! `, will need to investigate this, for internal clients ) 
 
 
 ```
