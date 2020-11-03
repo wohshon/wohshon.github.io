@@ -27,7 +27,7 @@ In this case, a `PersonEntity` is used as the domain object (name, email, age) ,
 
 The key configs you will need to be aware are
 
-- `infinispan.client.hotrod.server_list`, the endpoint of your cluster, it accepts a comma separated list for multiple instances to handle failover
+- `infinispan.client.hotrod.server_list`, the endpoint of your cluster, it accepts a semi-colon separated list for multiple instances to handle failover
 - `infinispan.client.hotrod.client_intelligence`, BASIC (no cluster aware), TOPOLOGY_AWARE (clients received updated topology), DISTRIBUTION_AWARE (Topology aware and stores consistent hash for keys).
 - Bunch of authentication related configs: 
 `infinispan.client.hotrod.sasl_mechanism`
