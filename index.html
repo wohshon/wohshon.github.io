@@ -27,21 +27,7 @@ layout: default
     </div>
 </header>
 
-<div style="float:right;margin-right: 10%;margin-left: 2%;margin-top:2%;background-color: #eeeeee;width: 18%;height:300px">
-  <div style="padding: 5px;">
-    <div style="margin: 0 auto;width: 85%;text-align: center;font-size: medium;">
-    <div style="font-weight: bolder;">
-      Blogs more worthy of your time:
-    </div>
-    <div style="height: 15px;">&nbsp;</div>
-      <div style="padding-left: 15px;float:left;text-align: left;font-weight: 500;font-size: small;">
-        <li><a href="https://braindose.blog/" style="text-decoration: none;color: inherit;">Braindose</a></li>  
-        <li><a href="https://naikoob.github.io/blog/" style="text-decoration: none;color: inherit;">Stuff that matters ... and a little indulgence</a> </li>
-        <li><a href="https://www.redhat.com/en/blog/" style="text-decoration: none;color: inherit;">Red Hat Blog</a> </li>
-      </div>
-    </div>
-  </div>
-</div>
+
 <main class="content" role="main">
 
 
@@ -69,27 +55,41 @@ layout: default
 
     <h5 class="index-headline normal"><span>Regular</span></h5>
     {% endif %}
-
-    <div class="cf frame">
-      {% for post in paginator.posts %}
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
-          <div class="article-item">
-            <header class="post-header">
-              <h2 class="post-title" itemprop="name"><a href="{{ post.url | prepend: site.baseurl }}" itemprop="url">{{ post.title }}</a></h2>
-            </header>
-            <section class="post-excerpt" itemprop="description">
-              <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
-            </section>
-            <div class="post-meta">
-              <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
-<!--            <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>-->
+    <div class="row">
+        <div class="cf frame column-wide">
+          {% for post in paginator.posts %}
+            <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
+              <div class="article-item">
+                <header class="post-header">
+                  <h2 class="post-title" itemprop="name"><a href="{{ post.url | prepend: site.baseurl }}" itemprop="url">{{ post.title }}</a></h2>
+                </header>
+                <section class="post-excerpt" itemprop="description">
+                  <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+                </section>
+                <div class="post-meta">
+                  <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
+    <!--            <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>-->
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        <div class="cf frame column-small">
+          <div class="sidebar-links">
+            <div class="sidebar-links-header">
+              Other good blogs:
             </div>
+            <div class="sidebar-links-body">
+              <li><a href="https://braindose.blog/" class="sidebar-links-url">Braindose - Gan CK</a></li>  
+              <li><a href="https://naikoob.github.io/blog/" class="sidebar-links-url">Stuff that matters... - BK </a> </li>
+              <li><a href="https://www.redhat.com/en/blog/" class="sidebar-links-url">Red Hat Blog</a> </li>
+            </div>
+          </div>            
           </div>
-        </article>
-      {% endfor %}
-    </div>
-
-    <nav class="pagination" role="navigation">
+        </div>
+      </div>
+ 
+    <nav class="pagination" role="navigation" >
       {% if paginator.next_page %}
         <a class="newer-posts" href={{ "/page" | prepend: site.baseurl | append: paginator.next_page }}>&larr; Older posts</a>
       {% endif %}

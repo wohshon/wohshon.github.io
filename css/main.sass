@@ -130,7 +130,7 @@ body
 
 .content
   width: 100%
-  max-width: 640px
+  max-width: 960px
   margin: 0 auto
   @include box-sizing(border-box)
   @include respond-to(800)
@@ -619,3 +619,47 @@ pre
     border: 0
     padding-right: 0
     padding-left: 0
+
+.column-wide
+  float: left
+  width: 80%
+
+.column-small
+  float: left
+  width: 20%
+  padding: 40px 0px
+
+.row:after
+  content: ""
+  display: table
+  clear: both
+  width: 100%
+  padding: 0px
+
+@media screen and (max-width: 640px)
+  .column-wide
+    width: 100%
+  .column-small
+    width: 100%
+
+.sidebar-links
+  margin: 0 auto
+  width: 100%
+  text-align: center
+  font-size: smaller
+  background-color: #eeeeee
+  height: 300px
+
+.sidebar-links-header
+  font-weight: bolder
+  padding: 8px 0px 10px 10px
+  text-align: left
+
+.sidebar-links-body
+  font-weight: 200
+  text-align: left
+  padding: 10px 0px 0px 10px
+
+.sidebar-links-url
+  text-decoration: none
+  color: inherit
