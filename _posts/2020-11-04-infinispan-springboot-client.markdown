@@ -12,7 +12,7 @@ I want to talk a bit on the Hot Rod springboot client I wrote to test the setup.
 
 Back to today's topic, the little utility springboot program basically uses [Hot Rod](https://infinispan.org/docs/dev/titles/hotrod_java/hotrod_java.html) to communicate with a infinispan cluster; and it exposes a suite of REST based API for end users to invoke the CRUD operations. Hot Rod is a binary based TCP protocol, that promised better performance and provides client side functionalities like loadbalancing and failover etc. 
 
-We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity as well.
+We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity.
 
 The repo of the client is [here](https://github.com/wohshon/application-clients/tree/master/rhdg-springboot). The README file should be able to get you going.
 
@@ -39,7 +39,7 @@ The key configs you will need to be aware are
 I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. 
 How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster. We have to accept this as a limitation for external clients and leverage on hot rod's superior perforamnce vs text-based protocols. 
 
-The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware as well. 
+The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware. 
 
 (I got another error in this mode :`Unable to convert property [%s] to an enum! `, will need to investigate this, for internal clients ) 
 
