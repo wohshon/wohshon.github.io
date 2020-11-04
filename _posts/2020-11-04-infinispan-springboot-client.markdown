@@ -26,7 +26,7 @@ Some things to take note of:
 #### Sample Code
 
 - I wanted a working sample where Java Objects are used (String based samples are plenty out there), where a sample protobuf usecase can be shown. Again, I prefer to have working 'MVP's where I can extend later, rather than to worry about these details when I need to work on something bigger or more complex.
-In this case, a `PersonEntity` is used as the domain object (name, email, age) , nothing fanciful but the writing of correct  protobuf schemas and syntax are out of the way.
+In this case, a `PersonEntity` is used as the domain object (name, email, age) , nothing fanciful but getting the work of writing correct protobuf schemas and syntax out of the way.
 
 #### Connectivity
 
