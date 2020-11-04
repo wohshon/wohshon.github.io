@@ -14,7 +14,12 @@ Back to today's topic, the little utility springboot program basically uses [Hot
 
 We will focus on the connectivity as an **external** client (outside of openshift), and will discuss some of the gotchas and differences in a OCP deployment in terms of the Hot Rod connectivity. I will also share some of the changes required for **internal** clients, if we were to deploy the springboot app on OCP, calling the cluster via service endpoint
 
-The repo of the client is [here](https://github.com/wohshon/application-clients/tree/master/rhdg-springboot). The README file should be able to get you going.
+The repo of the client is [here](https://github.com/wohshon/application-clients/tree/master/rhdg-springboot). 
+There is a separate branch `internal-client` that deals with running this app as a OCP service, on the same cluster as the infinispan.
+
+The README file should be able to get you going.
+
+
 
 Some things to take note of:
 
@@ -37,7 +42,7 @@ The key configs you will need to be aware are
 - `infinispan.client.hotrod.client_intelligence`, BASIC (no cluster aware), TOPOLOGY_AWARE (clients received updated topology), DISTRIBUTION_AWARE (Topology aware and stores consistent hash for keys).*
 
 I tried the `TOPOLOGY_AWARE` client intelligence, noticed that the server info uses the POD IPs which external clients cannot access, so they will not be able to make use of this function and have to stick to the `BASIC` mode. 
-How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster (same goes for internal clients, which is not wise to use a POD IP as a endpoint). Seems like client side topology awareness and failover is no longer relevant here. So looks like is about leveraging hot rod's superior perforamnce vs text-based protocols. 
+How big will this be an impact? For most usecases, I would like to think that the kubernetes service will provide the topology awareness, and distribute the load according to number of nodes in the cluster (same goes for internal clients, which is not wise to use a POD IP as a endpoint). Seems like client side topology awareness and failover is no longer relevant here. So whats the value of the Hot Rod client? probably the superior perforamnce vs text-based protocols. 
 
 The `DISTRIBUTION_AWARE` will not work for external clients as well as it is topology aware. 
 
@@ -69,7 +74,7 @@ For more details, the apidocs are [here](https://docs.jboss.org/infinispan/10.1/
 
 #### Running the app
 
-Some things to take note:
+Some pre-reqs to take care of:
 
 1. You have access to a cluster.
 2. Ensure your Hot Rod client properties are configured with the correct settings according to your environment. Refer to the previous section.
@@ -124,7 +129,7 @@ For details check out the `internal-client` branch.
 
 In summary:
 
-- change the server list in hot rod connection properties file to point to service endpot, 
+- change the server list in hot rod connection properties file to point to service endpoint, 
 
         infinispan.client.hotrod.server_list = example-infinispan.rhdg-cluster.svc.cluster.local:11222
 
