@@ -56,7 +56,7 @@ This was tested using 2 OCP clusters that are installed on premise. After the in
     15:36:50,046 INFO  (jgroups-5,example-infinispan-0-11602) [org.infinispan.XSITE] ISPN000439: Received new x-site view: [c1]
     15:37:01,112 INFO  (jgroups-5,example-infinispan-0-11602) [org.infinispan.XSITE] ISPN000439: Received new x-site view: [c1, c2]
 
-Side note: I wasn't successful in the inital attempts, so I tried hacking a using a LoadBalancer ingress using External IPs, it won't work. The Infinispan Operator [checks](https://github.com/infinispan/infinispan-operator/blob/af542c4e456b42a962b1a07fe62f8559c23ec784/pkg/controller/infinispan/xsite.go#L206) for the `Service`'s object `LoadBalancer: ingress` value.
+Side note: I wasn't successful in the inital attempts, I thought the NodePort configuration is not working, and  I tried hacking the LoadBalancer ingress (since it worked in the cloud) using External IPs, it won't work. The Infinispan Operator [checks](https://github.com/infinispan/infinispan-operator/blob/af542c4e456b42a962b1a07fe62f8559c23ec784/pkg/controller/infinispan/xsite.go#L206) for the `Service`'s object `LoadBalancer: ingress` value.
 
 
 #### Setting up the base environment
