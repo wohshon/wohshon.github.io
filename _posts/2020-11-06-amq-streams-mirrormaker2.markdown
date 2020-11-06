@@ -11,9 +11,9 @@ tags: amq-streams strimzi cross-site openshift
 
 
 
-After trying out Red Hat data grid's cross site replication feature, another cross site scenario on Openshift Container Platform I want to explore is Kafka Mirrormaker 2.0. 
+After trying out Red Hat data grid's cross site replication feature, another cross site scenario on Openshift Container Platform I wanted to explore is Kafka Mirrormaker 2.0. 
 
-A quick intro on running Apache Kafka on Openshift with the `Strimzi` project : [Strimzi](https://strimzi.io/) is the opensource project for managing Apacje Kafka deployments on Kubernetes, it uses the operator framework; and makes the work of deploying Apache Kafka a breeze on K8s. 
+A quick intro on running Apache Kafka on Kubernetes / Openshift using `Strimzi`: [Strimzi](https://strimzi.io/) is a opensource project for managing Apacje Kafka deployments on Kubernetes, it uses the operator framework making the work of deploying Apache Kafka a breeze on K8s. 
 
 **AMQ Streams** (not to be confused with the Artemis based message product, AMQ Broker) is Red Hat's distribution of the Strimzi project. Needless to say, it is packaged as a operator deployable product on Openshift Container Platform.
 
