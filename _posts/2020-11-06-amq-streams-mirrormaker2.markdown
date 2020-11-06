@@ -247,14 +247,14 @@ Next we create the java key store using the `keytool` command:
 
        keytool -import -trustcacerts -alias root -file /tmp/target-ca.crt -keystore target-truststore.jks -storepass password -noprompt   
 
-- Sending message to the target cluster on cluster1
+- Sending message to the source cluster on cluster1
 
         kafka_2.12-2.5.0.redhat-00003/bin/kafka-console-producer.sh --bootstrap-server my-cluster-source-kafka-bootstrap-amqstreams.apps.ocpcluster1.domain.com:443 --producer-property security.protocol=SSL --producer-property ssl.truststore.password=password --producer-property ssl.truststore.location=./source-truststore.jks --topic mm2-topic
         >message 1
         >message 2
         >message 3
 
-- Reading the messages off the source cluster on cluster 2, note the topic used here.
+- Reading the messages off the target cluster on cluster 2, note the topic used here.
 
         kafka_2.12-2.5.0.redhat-00003/bin/kafka-console-consumer.sh  --bootstrap-server my-cluster-target-kafka-bootstrap-amqstreams.apps.ocpcluster2.gemsdemolab.com:443 --from-beginning --consumer-property security.protocol=SSL --consumer-property ssl.truststore.password=password --consumer-property ssl.truststore.location=./target-truststore.jks --topic my-cluster-source.mm2-topic
         message 2
