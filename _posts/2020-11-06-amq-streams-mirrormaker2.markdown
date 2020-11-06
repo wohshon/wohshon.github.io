@@ -194,7 +194,7 @@ And here is The yaml definition for mirrormaker
         connectCluster: "my-cluster-target"
         clusters:
         - alias: "my-cluster-source"
-            bootstrapServers: my-cluster-source-kafka-bootstrap-amqstreams.apps.ocpcluster1.gemsdemolab.com:443
+            bootstrapServers: my-cluster-source-kafka-bootstrap-amqstreams.apps.ocpcluster1.domain.com:443
             tls: 
             trustedCertificates:
             - certificate: ca.crt
@@ -256,7 +256,7 @@ Next we create the java key store using the `keytool` command:
 
 - Reading the messages off the target cluster on cluster 2, note the topic used here.
 
-        kafka_2.12-2.5.0.redhat-00003/bin/kafka-console-consumer.sh  --bootstrap-server my-cluster-target-kafka-bootstrap-amqstreams.apps.ocpcluster2.gemsdemolab.com:443 --from-beginning --consumer-property security.protocol=SSL --consumer-property ssl.truststore.password=password --consumer-property ssl.truststore.location=./target-truststore.jks --topic my-cluster-source.mm2-topic
+        kafka_2.12-2.5.0.redhat-00003/bin/kafka-console-consumer.sh  --bootstrap-server my-cluster-target-kafka-bootstrap-amqstreams.apps.ocpcluster2.domain.com:443 --from-beginning --consumer-property security.protocol=SSL --consumer-property ssl.truststore.password=password --consumer-property ssl.truststore.location=./target-truststore.jks --topic my-cluster-source.mm2-topic
         message 2
         message 1
         message 3
