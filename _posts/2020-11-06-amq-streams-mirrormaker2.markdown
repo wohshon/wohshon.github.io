@@ -262,7 +262,7 @@ Next we create the java key store using the `keytool` command:
         message 3
 
 
-That's you go, the replication took place. I am very interested in the kind of performance it can handle. This may be something I will investigate next. 
+There you go, the replication took place. I am very interested in the kind of performance it can handle. This may be something I will investigate next. 
 
 Hope this is useful, till I write again!
 
