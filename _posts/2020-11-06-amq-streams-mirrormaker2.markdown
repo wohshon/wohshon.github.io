@@ -116,13 +116,13 @@ In case you are new to OCP, You can save them into a yaml file and invoke `oc cr
 Cluster 2 will be used as the source Kafka cluster. 
 
 The high level steps to setup Cluster 2, which is largely similar to cluster1
-1. Create a namespace, e.g. `amqstream`, there is no strict requirments to use the same name as cluster 1.
+1. Create a namespace, e.g. `amqstream`, there is no strict requirment to use the same name as cluster 1.
 2. Same thing, install the AMQ Streams Operator
 3. We will make use of the Operator to create the following objects:
    - Kafka Cluster
    - KafkaMirrorMaker2 
 
-We will not be creating any Kafka Topic as MM2 will create a target topic for the `mytopic` in cluster1
+We will not be creating any Kafka Topic as Mirror Maker will create a target topic mapping to `mytopic` in cluster1
 
 For completeness, the CRD's yaml definitions
 
@@ -264,5 +264,5 @@ Next we create the java key store using the `keytool` command:
 
 There you go, the replication took place. I am very interested in the kind of performance it can handle. This may be something I will investigate next. 
 
-Hope this is useful, till I write again!
+Hope this is useful and till I write again!
 
