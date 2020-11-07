@@ -39,7 +39,7 @@ For a component level view:
 ![source of image : https://strimzi.io/blog/2020/03/30/introducing-mirrormaker2](/assets/article_images/2020-11-06-amq-streams-mirrormaker2/2020-03-30-mirrormaker.png)
 
 
-#### The Environent:
+#### The Enviroment:
 
 - 2 x OCP 4.5.x clusters (let's call them cluster 1 and cluster 2)
 - AMQ Streams 1.5 
@@ -49,7 +49,10 @@ Cluster 1 will be used as the source Kafka cluster.
 
 The high level steps to setup Cluster 1:
 1. Create a namespace, e.g. `amqstreams` is used in this demo
-2. Install the AMQ Streams Operator, I won't go into the details as it is very well documented [here](https://access.redhat.com/documentation/en-us/red_hat_amq/7.7/html-single/using_amq_streams_on_openshift/index)
+2. Install the AMQ Streams Operator, I won't go into the details as it is very well documented [here](https://access.redhat.com/documentation/en-us/red_hat_amq/7.7/html-single/using_amq_streams_on_openshift/index).
+
+I have also uploaded some scripts for deploying the operator and a basic cluster [here](https://github.com/wohshon/amqstreams-scripts). Hope this will make it easier for testing, when you have to repeatably provision and tear down.
+
 3. We will make use of the Operator to create the following objects:
    - Kafka Cluster
    - Kafka Topic
