@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Pulling Historical Intraday Stock Info from Yahoo Finance
+title:  Pulling Historical Intraday Stock Info from Yahoo Finance with Python
 date:   2020-11-08
 categories: tech
 tags: python rapidapi
@@ -10,7 +10,7 @@ tags: python rapidapi
 
 Helped a friend with a weekend project recently, attempted a rather amateurish python program to pull historical stock data from [Yahoo Finance](https://finance.yahoo.com/), using [rapidapi's](https://rapidapi.com/marketplace) API platform. 
 
-Do not expect any ground breaking contents as I am relatively new to Python as compared to Java and Node Js, with only a couple of Phython and Data Analytics online learning courses that I can boast of.
+Do not expect any ground breaking contents as I am relatively new to Python as compared to Java and Node Js, with only a couple of Python and Data Analytics online learning courses that I can boast of.
 
 The choice of Python is of course driven by the usecase. The data are needed for analytics purposes and likely going to have some basic cleaning and data manipulation before it reach its final form. 
 
@@ -33,18 +33,18 @@ The overall flow looks like this, no rocket science:
 
 </pre>
 
-I don't have any requirements to package this into a deployable form in the near future, the deliverable is a csv file, which the friend is going to pump into analytical tool (likely to be Tableau); so I decided to use jupyter notebook. There is the tool I am most familiar with in the python world.
+I don't have any requirements to package this into a deployable form in the near future, the deliverable is a csv file, which the friend is going to pump into a analytical tool (likely to be Tableau); so I decided to use jupyter notebook which can be a scrapbook. Furthermore it is the tool I am most familiar with in the python world.
 
 
 Here is a overview of what I have done:
 
 #### Environment
 
-I spin up a new CentOS vm, installed Conda, and setup an environment with the usual libraries like Pandas, Numpy and of course Jupyter notebook.
+I spun up a new CentOS vm, installed Conda, and setup an environment with the usual libraries like Pandas, Numpy and of course Jupyter notebook.
 
 #### Reading from the CSV file
 
-The original file lives in google drive, and I could have extract from the googlesheet directly, you can reference this [page](https://developers.google.com/sheets/api/quickstart/python) for instructions, it works but lots of hassle to grant authorization and it is my main google account, so I decide to just work on a offline copy of csv file.
+The original file lives in google drive, and I could have extract from the googlesheet directly. You can reference this [page](https://developers.google.com/sheets/api/quickstart/python) for instructions. it works but lots of hassle to grant authorization and it is my main google account, I am abit uncomfortable to use that in a development VM which I do not pay attention to security, so I decide to just work on a offline copy of csv file.
 
 There are about 6000 over records in the source csv file (let's call the `tickers.csv`) that looks like that
 <pre>
@@ -84,7 +84,7 @@ print(arr.size)
 
 The steps to pull data of the remainding 5000 ish records is straightforwad. I had a loop to read through the array of tickers and call the remote API one by one. As my error handling is not sophiscated, I break up the retrival into managable sizes by allowing a start and end row. 
 
-The API actually returns the results in Json format, I originally returned a massive array of arrays, with each ticker symbol pointing to an array of their historical data. But my friend (or the tool) couldn't handle the json format. So we switched over to csv format, with a flat layout, repeating the ticker value every single row.
+The API actually returns the results in Json format, I originally returned a massive array of arrays, with each ticker symbol pointing to an array of their historical data. But my friend (or the tool) couldn't handle the json format. So we switched over to csv format, with a flat layout, repeating the ticker value every single row. Some manipulation is done to format the Date info into a String as well.
 
 e.g. output
 
@@ -121,8 +121,6 @@ for symbol in arr[start_row:end_row]:
     response = requests.request("GET", url, headers=headers, params=querystring)
     try:
         j = json.loads(response.text)
-        # print(j)
-
         if cnt > 1 :
             df1 = pd.DataFrame.from_dict(j["prices"])
             df1.insert (0, "symbol", symbol)
@@ -132,9 +130,6 @@ for symbol in arr[start_row:end_row]:
             df = pd.DataFrame.from_dict(j["prices"])
             df.insert (0, "symbol", symbol)
             df['date'] = df['date'].apply(lambda y: datetime.datetime.fromtimestamp(y).strftime("%m-%d-%Y"))
-
-        # print(df.to_csv(index=False))
-        # display(df)
         print("*****done pulling record*****************")
     except:
         print("ERROR processing, skipping "+symbol)  
