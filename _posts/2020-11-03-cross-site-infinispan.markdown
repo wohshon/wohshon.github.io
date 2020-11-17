@@ -8,9 +8,6 @@ tags: infinispan openshift datagrid
 #image2: /assets/article_images/2014-11-30-mediator_features/night-track-mobile.JPG
 ---
 
-[//]: # ## Red Hat DataGrid / Infinispan Cross Site on Openshift Container Platform
-
-
 This is to document a demo setup for 2 cross site infinispan clusters deployed on 2 Openshift Container Platform. In today's context of multi, hybrid cloud deployments,  I am particularly interested in seeing workloads deployed across multiple 'clouds', especially where states can be preserved; so that we can leverage on the capabilities to explore load distribution or failover usecases.
 
 This was tested on 2 Openshift Container Platform clusters in AWS (using the `LoadBalancer` connector), as well as 2 on premise clusters (using the `NodePort` connector).
