@@ -46,7 +46,7 @@ I spun up a new CentOS vm, installed Conda, and setup an environment with the us
 
 The original file lives in google drive, and I could have extract from the googlesheet directly. You can reference this [page](https://developers.google.com/sheets/api/quickstart/python) for instructions. it works but lots of hassle to grant authorization and it is my main google account, I am abit uncomfortable to use that in a development VM which I do not pay attention to security, so I decide to just work on a offline copy of csv file.
 
-There are about 6000 over records in the source csv file (let's call the `tickers.csv`) that looks like that
+There are about 6000 over records in the source csv file (let's call it `tickers.csv`) that looks like:
 <pre>
 
 Market,Symbol,Name,Sector,Industry,Summary Quote
