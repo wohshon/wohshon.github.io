@@ -63,58 +63,62 @@ In case you are new to OCP, You can save them into a yaml file and invoke `oc cr
 
 - Create the `Kafka` Object
 
-        apiVersion: kafka.strimzi.io/v1beta1
-        kind: Kafka
-        metadata:
-        name: my-cluster-source
-        namespace: amqstreams
-        spec:
-        kafka:
-            config:
-            offsets.topic.replication.factor: 3
-            transaction.state.log.replication.factor: 3
-            transaction.state.log.min.isr: 2
-            log.message.format.version: '2.5'
-            version: 2.5.0
-            storage:
-            type: ephemeral
-            replicas: 3
-            listeners:
-            external:
-                type: route
-            plain:
-                authentiation:
-                type: scram-sha-512
-            tls:
-                authentiation:
-                type: tls
-        entityOperator:
-            topicOperator:
-            reconciliationIntervalSeconds: 90
-            userOperator:
-            reconciliationIntervalSeconds: 120
-        zookeeper:
-            storage:
-            type: ephemeral
-            replicas: 3
-   
+```
+apiVersion: kafka.strimzi.io/v1beta1
+kind: Kafka
+metadata:
+  name: my-cluster-source
+  namespace: amqstreams
+spec:
+  kafka:
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      log.message.format.version: '2.5'
+    version: 2.5.0
+    storage:
+      type: ephemeral
+    replicas: 3
+    listeners:
+      external:
+        type: route
+      plain:
+        authentiation:
+          type: scram-sha-512
+      tls:
+        authentiation:
+          type: tls
+  entityOperator:
+    topicOperator:
+      reconciliationIntervalSeconds: 90
+    userOperator:
+      reconciliationIntervalSeconds: 120
+  zookeeper:
+    storage:
+      type: ephemeral
+    replicas: 3
+```
+ 
 - Create the `KafkaTopic` Object
 
-        apiVersion: kafka.strimzi.io/v1beta1
-        kind: KafkaTopic
-        metadata:
-        name: my-topic
-        labels:
-            strimzi.io/cluster: my-cluster-source
-        namespace: amqstreams
-        spec:
-        config:
-            retention.ms: 604800000
-            segment.bytes: 1073741824
-        partitions: 3
-        replicas: 3
-        topicName: mytopic
-   
+```
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: 
+  labels:
+    strimzi.io/cluster: my-cluster-source 
+  namespace: amqstreams 
+spec:
+  config:
+    retention.ms: 604800000
+    segment.bytes: 1073741824
+  partitions: 3
+  replicas: 3
+  topicName: mytopic
+
+```   
 ##### Cluster 2
 Cluster 2 will be used as the source Kafka cluster. 
 
@@ -131,42 +135,44 @@ For completeness, the CRD's yaml definitions
 
 - Create the `Kafka` Object
 
-        apiVersion: kafka.strimzi.io/v1beta1
-        kind: Kafka
-        metadata:
-        name: my-cluster-target
-        namespace: amqstreams
-        spec:
-        kafka:
-            config:
-            offsets.topic.replication.factor: 3
-            transaction.state.log.replication.factor: 3
-            transaction.state.log.min.isr: 2
-            log.message.format.version: '2.5'
-            version: 2.5.0
-            storage:
-            type: ephemeral
-            replicas: 3
-            listeners:
-            external:
-                type: route
-            plain:
-                authentiation:
-                type: scram-sha-512
-            tls:
-                authentiation:
-                type: tls
-        entityOperator:
-            topicOperator:
-            reconciliationIntervalSeconds: 90
-            userOperator:
-            reconciliationIntervalSeconds: 120
-        zookeeper:
-            storage:
-            type: ephemeral
-            replicas: 3
+```
+apiVersion: kafka.strimzi.io/v1beta1
+kind: Kafka
+metadata:
+  name: my-cluster-target
+  namespace: amqstreams
+spec:
+  kafka:
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      log.message.format.version: '2.5'
+    version: 2.5.0
+    storage:
+      type: ephemeral
+    replicas: 3
+    listeners:
+      external:
+        type: route
+      plain:
+        authentiation:
+          type: scram-sha-512
+      tls:
+        authentiation:
+          type: tls
+  entityOperator:
+    topicOperator:
+      reconciliationIntervalSeconds: 90
+    userOperator:
+      reconciliationIntervalSeconds: 120
+  zookeeper:
+    storage:
+      type: ephemeral
+    replicas: 3
+```
 
-- Create the `KafkaMirrorMaker2` object , I will talk more about the configuration
+Create the `KafkaMirrorMaker2` object , I will talk more about the configuration
 
 The yaml file you see below is a barebone configuration of mirror maker 2 (that works).
 
@@ -188,32 +194,32 @@ There might be a better way to 'copy' secrets across namespaces, but for now, I 
 
 And here is The yaml definition for mirrormaker
 
-
-        apiVersion: kafka.strimzi.io/v1alpha1
-        kind: KafkaMirrorMaker2
-        metadata:
-        name: my-mirror-maker2
-        spec:
-        version: 2.5.0
-        connectCluster: "my-cluster-target"
-        clusters:
-        - alias: "my-cluster-source"
-            bootstrapServers: my-cluster-source-kafka-bootstrap-amqstreams.apps.ocpcluster1.domain.com:443
-            tls: 
-            trustedCertificates:
-            - certificate: ca.crt
-                secretName: my-cluster-source-cluster-ca-cert  
-        - alias: "my-cluster-target"
-            bootstrapServers: my-cluster-target-kafka-bootstrap-amqstreams.apps.ocpcluster2.domain.com:443
-            tls: 
-            trustedCertificates:
-            - certificate: ca.crt
-                secretName: my-cluster-target-cluster-ca-cert    
-        mirrors:
-        - sourceCluster: "my-cluster-source"
-            targetCluster: "my-cluster-target"
-            sourceConnector: {}
-
+```
+apiVersion: kafka.strimzi.io/v1alpha1
+kind: KafkaMirrorMaker2
+metadata:
+name: my-mirror-maker2
+spec:
+version: 2.5.0
+connectCluster: "my-cluster-target"
+clusters:
+- alias: "my-cluster-source"
+    bootstrapServers: my-cluster-source-kafka-bootstrap-amqstreams.apps.ocpcluster1.domain.com:443
+    tls: 
+    trustedCertificates:
+    - certificate: ca.crt
+        secretName: my-cluster-source-cluster-ca-cert  
+- alias: "my-cluster-target"
+    bootstrapServers: my-cluster-target-kafka-bootstrap-amqstreams.apps.ocpcluster2.domain.com:443
+    tls: 
+    trustedCertificates:
+    - certificate: ca.crt
+        secretName: my-cluster-target-cluster-ca-cert    
+mirrors:
+- sourceCluster: "my-cluster-source"
+  targetCluster: "my-cluster-target"
+  sourceConnector: {}
+```
 
 Once the pods for the MM2 object is started, it will create target Topics to map those at the source, with a naming convention of &lt;source cluster&gt;.&lt;topic name&gt;. (The default config is to map all topics using the wildcard * filter. You can define your own name filter to limit the topics being replicated)
 
